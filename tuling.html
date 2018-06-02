@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    .robot-warp{
+        width: 100%;
+        height: 100%;
+    }
+    .robot-content{
+        width: 400px;
+        /*height: 400px;*/
+        margin: 50px auto;
+        /*background-color: pink;*/
+    }
+    .top-img{
+        float: left;
+    }
+    .top-text{
+        float: left;
+        padding-top: 6px;
+    }
+    .robot-top{
+        overflow: hidden;
+        border: 1px solid #e9e9e9 ;
+        width: 100%;
+    }
+    .robot-top img{
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+    .top-text p{
+        color: rgb(102, 102, 102);
+        font-size: 12px;
+        line-height: 20px
+    }
+    .top-text p:nth-child(2){
+        color: #999;
+        background: url('wx000.svg')no-repeat right;
+    }
+    .text{
+        width: 100%;
+        height: 350px;
+        border: 1px solid #e9e9e9 ;
+        border-top: 0;
+        overflow: auto;
+    }
+    .chat-info{
+        width: 100%;
+        height: 60px;
+        background-color: #f0f3f6;
+        border: 1px solid #e9e9e9 ;
+    }
+    .chat-info input{
+        width: 90%;
+        height: 100%;
+        line-height: 60px;
+        float: left;
+        background-color: #f0f3f6;
+        border: none;
+        text-indent: 20px;
+        outline: 0;
+    }
+    .chat-info div{
+        width: 9%;
+        float: left;
+        height: 100%;
+        background: url('icon4.png')no-repeat center;
+    }
+    .text1,.text2{
+       width: 100%;
+       overflow: hidden;
+    }
+    .my-text p{
+        margin-top: 15px;
+        margin-right: 15px;
+        max-width: 180px;
+        line-height: 20px;
+        font-size: 12px;
+        padding: 7px 10px;
+        border-radius: 8px;
+        background-color: #00a3f0;
+        color: #fff;
+        float: right;
+    }
+    .my-text img{
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        float: right;
+        margin-top: 15px;
+        margin-right: 10px;
+    }
+    .my-text p{
+        float: right;
+    }
+    .robot-text img{
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        float: left;
+        margin-top: 15px;
+        margin-left: 10px;
+    }
+    .robot-text p{
+        margin-top: 15px;
+        margin-left: 15px;
+        max-width: 180px;
+        line-height: 20px;
+        font-size: 12px;
+        padding: 7px 10px;
+        border-radius: 8px;
+        background-color: #00a3f0;
+        color: #fff;
+        float: left;
+    }
+    .text-btn:hover{
+        cursor: pointer;
+    }
+    </style>
+</head>
+<body>
+    <div class="robot-warp">
+        <div class="robot-content">
+          <div class="robot-top">
+             <div class="top-img"><img src="2017-07-24-icon40.png" alt=""></div>
+             <div class="top-text">
+                <p>图灵机器人</p>
+                <p>分享到：</p>
+             </div>
+          </div>
+          <div class="text">
+            <div class="text1" style="display: none;"><div class="my-text"><img src="touxiang.jpg" alt=""><p>你好</p></div></div>
+            <div class="text2" style="display: none;">
+                <div class="robot-text">
+                    <img src="2017-07-24-icon40.png" alt="">
+                    <p>加油呦</p>
+                </div>
+            </div>
+          </div>
+          <div class="chat-info">
+             <input type="text" placeholder="快来和我聊聊天吧">
+             <div class="text-btn"></div>
+          </div>
+        </div>
+    </div>
+</body>
+</html>
+    <script src='jquery.min.js'></script>
+    <script>
+     $(function(){
+        $(".text-btn").click(function(){
+            var $mytext = $(".text1:first-child").clone(true).show();
+            // console.log($mytext);
+            $mytext.find('p').html($('input[type=text]').val());
+            $mytext.appendTo($('.text'));
+            $('input[type=text]').val('');
+
+
+            var xhr = new XMLHttpRequest();
+        
+            xhr.open('post','http://www.tuling123.com/openapi/api');
+
+            xhr.setRequestHeader("content-type","application/x-www-form-urlencoded");
+
+            // xhr.onload = function(){
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState==4&&xhr.status==200){    
+                // console.log(JSON.parse(xhr.responseText).text);
+                var $robotText = $(".text2:eq(0)").clone(true).show();
+                $robotText.find('p').html(JSON.parse(xhr.responseText).text);
+                $robotText.appendTo($('.text'));
+            //实现每次输入内容后，滚动条都在最下面
+                $('.text').scrollTop( $('.text')[0].scrollHeight);
+                $('.text').scrollLeft( $('.text')[0].scrollWidth);
+            }
+        }
+            xhr.send('key=97b50e8c3c7a423e826f237146372445&info='+$('input[type=text]').val());
+     })
+     });   
+    </script>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+    body{
+        background-color: pink;
+    }
+    </style>
+</head>
+<body>
+    <!-- name不是必须的，form表单才是必须的   -->
+    <input type="text">
+    <input type='button' value="提交按钮">
+    <ul></ul>
+
+</body>
+</html>
+    <script>
+    document.querySelector('input[type=button]').onclick = function(){
+    var myli = document.createElement('li');
+    myli.innerHTML = document.querySelector('input[type=text]').value;
+    myli.style.backgroundColor = "hotpink";
+    document.querySelector('ul').appendChild(myli);
+    
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('post','http://www.tuling123.com/openapi/api');
+
+    xhr.setRequestHeader("content-type","application/x-www-form-urlencoded");
+
+    xhr.onload = function(){
+        console.log(xhr.responseText);
+        var phpli = document.createElement('li');
+        phpli.innerHTML = xhr.responseText;
+        phpli.style.backgroundColor = 'yellow';
+        document.querySelector('ul').appendChild(phpli);
+    }
+    
+    xhr.send('key=97b50e8c3c7a423e826f237146372445&info='+document.querySelector('input[type=text]').value);
+    }
+    </script>
